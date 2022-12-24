@@ -1,23 +1,34 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-const { ethers } = require("ethers")
+const ethers = require('ethers');
+const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-//npm run build
-mybutton.addEventListener("click", function() {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    provider.send("eth_requestAccounts", []) .then(addresses => {
+const button = document.getElementById('runaway-button');
 
-    console.log(addresses);
-    const address = addresses[0];
-    console.log(address);
-
-    provider.getBalance(address).then(balance  => {
-
-        console.log(balance.toString());
-    })
-})
+// myScamNFTButton
+button.addEventListener('mouseover', () => {
+  button.style.position = 'absolute';
+  button.style.top = Math.random() * window.innerHeight + 'px';
+  button.style.left = Math.random() * window.innerWidth + 'px';
 });
 
+// HW content
+document.getElementById("addressbutton").addEventListener("click", function () {
+    provider.send("eth_requestAccounts", []).then(addresses => {
+        console.log(addresses[0]);
+        document.getElementById("address").innerHTML = addresses[0];
+    })
 
+})
+
+document.getElementById("balancebutton").addEventListener("click", function () {
+    provider.send("eth_requestAccounts", []).then(addresses => {
+
+        provider.getBalance(addresses[0]).then(myBalance => {
+            console.log(ethers.utils.formatEther(myBalance));
+            document.getElementById("balance").innerHTML = ethers.utils.formatEther(myBalance);
+        })
+    })
+})
 },{"ethers":150}],2:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
